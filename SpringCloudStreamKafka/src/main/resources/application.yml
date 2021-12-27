@@ -1,0 +1,42 @@
+spring:
+  autoconfigure:
+    exclude:
+    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+    - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+  main:
+    allow-circular-references: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  cloud:
+    function:
+      definition: producer;consumer
+    stream:
+      default-binder: kafka
+      bindings:
+        consumer-in-0:
+          destination: test
+          content-type: text/plain
+          binder: kafka
+          group: input_group
+          consumer:
+            partitioned: true
+            concurrency: 3
+        producer-out-0:
+          destination: test
+          content-type: text/plain
+          binder: kafka
+          group: output_group
+      kafka:
+        binder:
+          brokers:
+          - localhost:9092
+          health-timeout: 10
+          required-acks: 1
+          auto-create-topics: true
+          replication-factor: 1
+          auto-add-partitions: true
+          min-partition-count: 8
+ 
+          
