@@ -11,13 +11,13 @@ spring:
       matching-strategy: ANT_PATH_MATCHER
   cloud:
     function:
-      definition: producer;consumer
+      definition: consumer
     stream:
       default-binder: kafka
       bindings:
         consumer-in-0:
           destination: test
-          content-type: text/plain
+          content-type: application/json
           binder: kafka
           group: input_group
           consumer:
@@ -25,7 +25,7 @@ spring:
             concurrency: 3
         producer-out-0:
           destination: test
-          content-type: text/plain
+          content-type: application/json
           binder: kafka
           group: output_group
       kafka:
@@ -38,5 +38,4 @@ spring:
           replication-factor: 1
           auto-add-partitions: true
           min-partition-count: 8
- 
           
