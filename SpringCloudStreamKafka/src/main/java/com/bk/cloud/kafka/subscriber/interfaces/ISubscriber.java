@@ -1,4 +1,4 @@
-package com.bk.cloud.kafka.interfaces;
+package com.bk.cloud.kafka.subscriber.interfaces;
 
 import java.util.function.Consumer;
 

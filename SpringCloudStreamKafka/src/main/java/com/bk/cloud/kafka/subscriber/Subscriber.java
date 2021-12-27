@@ -1,12 +1,12 @@
-package com.bk.cloud.kafka;
+package com.bk.cloud.kafka.subscriber;
 
 import java.util.function.Consumer;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import com.bk.cloud.kafka.interfaces.ISubscriber;
 import com.bk.cloud.kafka.model.KafkaDetails;
+import com.bk.cloud.kafka.subscriber.interfaces.ISubscriber;
 
 import lombok.extern.slf4j.Slf4j;
 

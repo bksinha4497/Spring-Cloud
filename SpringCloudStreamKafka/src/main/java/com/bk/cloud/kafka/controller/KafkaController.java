@@ -1,4 +1,4 @@
-package com.bk.cloud.kafka;
+package com.bk.cloud.kafka.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-public class Controller {
+public class KafkaController {
 
 	@Autowired
 	private StreamBridge publisher;
