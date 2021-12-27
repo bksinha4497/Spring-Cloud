@@ -9,6 +9,14 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
+  profiles:
+    active:
+    - dev
+---
+
+spring:
+  profiles:
+  - dev
   cloud:
     function:
       definition: consumer
