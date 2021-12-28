@@ -2,11 +2,11 @@ package com.bk.spring.cloud.zookeeper.processor;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.bk.spring.cloud.zookeeper.model.Node;
@@ -20,6 +20,8 @@ public class ProcessNode implements Runnable{
 
 	@Component
 	public class ProcessNodeWatcher implements Watcher{
+		@Value("${spring.cloud.zookeeper.discovery.instance-id}")
+		private int nodeId;
 		@Override
 		public void process(WatchedEvent event) {
 
@@ -35,21 +37,23 @@ public class ProcessNode implements Runnable{
 		}
 
 	}
-	private static final String LEADER_ELECTION_ROOT_NODE = "/cache-election";
+
+	private static final String LEADER_ELECTION_ROOT_NODE = "/file_ingestion";
 
 	private static final String PROCESS_NODE_PREFIX = "/p_";
-	private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
 
 	private String processNodePath;
 
 	private String watchedNodePath;
-	private int nodeId = ID_GENERATOR.getAndIncrement();
 
 	@Autowired
 	private Node node;
 
 	@Autowired
 	ZooKeeperService zooKeeperService;
+
+	@Value("${spring.cloud.zookeeper.discovery.instance-id}")
+	private int nodeId;
 
 	private void attemptForLeaderPosition() {
 

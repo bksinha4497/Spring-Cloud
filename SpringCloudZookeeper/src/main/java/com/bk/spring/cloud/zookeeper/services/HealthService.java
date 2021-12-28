@@ -32,7 +32,7 @@ public class HealthService {
 			for(ServiceInstance node : list) {
 				Map<String, String> metadata = new HashMap<>(node.getMetadata());
 				metadata.put("instance_id", node.getInstanceId());
-				metadata.put("hot", node.getHost());
+				metadata.put("host", node.getHost());
 				metadata.put("port", String.valueOf(node.getPort()));
 				instances.add(metadata);
 			}
