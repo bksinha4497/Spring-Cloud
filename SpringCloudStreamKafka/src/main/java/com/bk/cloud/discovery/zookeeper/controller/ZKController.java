@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bk.cloud.discovery.zookeeper.ServiceInstanceMapper;
-import com.bk.cloud.discovery.zookeeper.ServiceRegistry;
+import com.bk.cloud.discovery.zookeeper.services.ServiceInstanceMapper;
+import com.bk.cloud.discovery.zookeeper.services.ServiceRegistry;
 
 @RestController
 @RequestMapping("zk")

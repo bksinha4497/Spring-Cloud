@@ -1,4 +1,4 @@
-package com.bk.cloud.discovery.zookeeper;
+package com.bk.cloud.discovery.zookeeper.services;
 
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperInstance;

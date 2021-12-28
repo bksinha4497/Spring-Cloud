@@ -17,11 +17,15 @@ spring:
 ---
 
 spring:
-  profiles:
-  - dev
+  config:
+    activate:
+      on-profile:
+      - dev
   cloud:
     function:
       definition: consumer
+    zookeeper:
+      connect-string: localhost:2181
     stream:
       default-binder: kafka
       bindings:
@@ -48,4 +52,3 @@ spring:
           replication-factor: 1
           auto-add-partitions: true
           min-partition-count: 8
-          

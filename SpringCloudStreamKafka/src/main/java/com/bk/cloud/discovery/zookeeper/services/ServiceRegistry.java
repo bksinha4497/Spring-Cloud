@@ -1,4 +1,4 @@
-package com.bk.cloud.discovery.zookeeper;
+package com.bk.cloud.discovery.zookeeper.services;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -8,21 +8,25 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.ServiceInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperDiscoveryProperties;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperInstance;
+import org.springframework.stereotype.Service;
 
 import com.bk.cloud.discovery.zookeeper.interfaces.IServiceRegistry;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 public class ServiceRegistry implements IServiceRegistry {
 
 	private CuratorFramework curatorFramework;
 	private ZookeeperDiscoveryProperties zookeeperDiscoveryProperties;
-	ServiceDiscovery<ZookeeperInstance> serviceDiscovery;
+	private ServiceDiscovery<ZookeeperInstance> serviceDiscovery;
+	private String name;
 
-
+	@Autowired
 	public ServiceRegistry(CuratorFramework curatorFramework,
 			ZookeeperDiscoveryProperties zookeeperDiscoveryProperties) {
 		super();
@@ -46,6 +50,7 @@ public class ServiceRegistry implements IServiceRegistry {
 
 	@Override
 	public ServiceInstanceMapper getInstance(String name) {
+		this.name = name;
 		try {
 			Collection<ServiceInstance<ZookeeperInstance>> serviceInstances = serviceDiscovery.queryForInstances(name);
 			Optional<ServiceInstance<ZookeeperInstance>> first = serviceInstances.stream()
