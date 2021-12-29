@@ -65,16 +65,15 @@ public class ProcessNode implements Runnable{
 			final String watchedNodeShortPath = childNodePaths.get(index - 1);
 			node.setLeader(false);
 			watchedNodePath = LEADER_ELECTION_ROOT_NODE + "/" + watchedNodeShortPath;
-			log.info("[Process: " + nodeId + "] - Setting watch on node with path: " + watchedNodePath);
+			log.info("[Process: " + nodeId + "] - I am Follower - setting watch on node with path: "
+					+ watchedNodePath);
 			zooKeeperService.watchNode(watchedNodePath, true);
 		}
 	}
 
 	@Override
 	public void run() {
-
 		log.info("Process with id: " + nodeId + " has started!");
-
 		final String rootNodePath = zooKeeperService.createNode(LEADER_ELECTION_ROOT_NODE, false, false);
 		if(rootNodePath == null) {
 			throw new IllegalStateException("Unable to create/access leader election root node with path: " + LEADER_ELECTION_ROOT_NODE);
@@ -84,7 +83,6 @@ public class ProcessNode implements Runnable{
 			throw new IllegalStateException("Unable to create/access process node with path: " + LEADER_ELECTION_ROOT_NODE);
 		}
 		log.debug("[Process: " + nodeId + "] Process node created with path: " + processNodePath);
-
 		attemptForLeaderPosition();
 	}
 
