@@ -36,9 +36,9 @@ public class ProcessNode implements Runnable{
 		}
 	}
 
-	private static String PROCESS_NODE_PREFIX = "/p_";
 
-	private static String LEADER_ELECTION_ROOT_NODE;
+	private static String leaderElectionRootNode;
+	private static String processNodePrefix;
 
 	private String processNodePath;
 
@@ -55,7 +55,7 @@ public class ProcessNode implements Runnable{
 
 	private void attemptForLeaderPosition() {
 
-		final List<String> childNodePaths = zooKeeperService.getChildren(LEADER_ELECTION_ROOT_NODE, false);
+		final List<String> childNodePaths = zooKeeperService.getChildren(leaderElectionRootNode, false);
 		Collections.sort(childNodePaths);
 		int index = childNodePaths.indexOf(processNodePath.substring(processNodePath.lastIndexOf('/') + 1));
 		if(index == 0) {
@@ -64,7 +64,7 @@ public class ProcessNode implements Runnable{
 		} else {
 			final String watchedNodeShortPath = childNodePaths.get(index - 1);
 			node.setLeader(false);
-			watchedNodePath = LEADER_ELECTION_ROOT_NODE + "/" + watchedNodeShortPath;
+			watchedNodePath = leaderElectionRootNode + "/" + watchedNodeShortPath;
 			log.info("[Process: " + nodeId + "] - I am Follower - setting watch on node with path: "
 					+ watchedNodePath);
 			zooKeeperService.watchNode(watchedNodePath, true);
@@ -74,26 +74,28 @@ public class ProcessNode implements Runnable{
 	@Override
 	public void run() {
 		log.info("Process with id: " + nodeId + " has started!");
-		final String rootNodePath = zooKeeperService.createNode(LEADER_ELECTION_ROOT_NODE, false, false);
+		final String rootNodePath = zooKeeperService.createNode(leaderElectionRootNode, false, false);
 		if(rootNodePath == null) {
-			throw new IllegalStateException("Unable to create/access leader election root node with path: " + LEADER_ELECTION_ROOT_NODE);
+			throw new IllegalStateException(
+					"Unable to create/access leader election root node with path: " + leaderElectionRootNode);
 		}
-		processNodePath = zooKeeperService.createNode(rootNodePath + PROCESS_NODE_PREFIX, false, true);
+		processNodePath = zooKeeperService.createNode(rootNodePath + processNodePrefix, false, true);
 		if(processNodePath == null) {
-			throw new IllegalStateException("Unable to create/access process node with path: " + LEADER_ELECTION_ROOT_NODE);
+			throw new IllegalStateException(
+					"Unable to create/access process node with path: " + leaderElectionRootNode);
 		}
 		log.debug("[Process: " + nodeId + "] Process node created with path: " + processNodePath);
 		attemptForLeaderPosition();
 	}
 
 	@Value("${spring.cloud.zookeeper.discovery.node.root}")
-	public  void setLEADER_ELECTION_ROOT_NODE(String lEADER_ELECTION_ROOT_NODE) {
-		LEADER_ELECTION_ROOT_NODE = lEADER_ELECTION_ROOT_NODE;
+	public void setLeaderElectionRootNode(String leaderElectionRootNode) {
+		this.leaderElectionRootNode = leaderElectionRootNode;
 	}
 
 	@Value("${spring.cloud.zookeeper.discovery.node.prefix}")
-	public void setPROCESS_NODE_PREFIX(String pROCESS_NODE_PREFIX) {
-		PROCESS_NODE_PREFIX = pROCESS_NODE_PREFIX;
+	public void setProcessNodePrefix(String processNodePrefix) {
+		this.processNodePrefix = processNodePrefix;
 	}
 
 }
