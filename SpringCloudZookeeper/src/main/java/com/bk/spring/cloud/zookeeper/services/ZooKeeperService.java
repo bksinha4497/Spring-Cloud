@@ -18,7 +18,6 @@ import com.bk.spring.cloud.zookeeper.processor.ProcessNode;
 public class ZooKeeperService {
 	
 	private ZooKeeper zooKeeper;
-	private static String node;
 	public ZooKeeperService(@Value("${spring.cloud.zookeeper.connect-string}") String url, @Autowired ProcessNode.ProcessNodeWatcher processNodeWatcher) throws IOException {
 		zooKeeper = new ZooKeeper(url, 3000, processNodeWatcher);
 	}
