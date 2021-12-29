@@ -33,14 +33,12 @@ public class ProcessNode implements Runnable{
 					attemptForLeaderPosition();
 				}
 			}
-
 		}
-
 	}
 
-	private static final String LEADER_ELECTION_ROOT_NODE = "/file_ingestion";
+	private static String PROCESS_NODE_PREFIX = "/p_";
 
-	private static final String PROCESS_NODE_PREFIX = "/p_";
+	private static String LEADER_ELECTION_ROOT_NODE;
 
 	private String processNodePath;
 
@@ -88,6 +86,16 @@ public class ProcessNode implements Runnable{
 		log.debug("[Process: " + nodeId + "] Process node created with path: " + processNodePath);
 
 		attemptForLeaderPosition();
+	}
+
+	@Value("${spring.cloud.zookeeper.discovery.node.root}")
+	public  void setLEADER_ELECTION_ROOT_NODE(String lEADER_ELECTION_ROOT_NODE) {
+		LEADER_ELECTION_ROOT_NODE = lEADER_ELECTION_ROOT_NODE;
+	}
+
+	@Value("${spring.cloud.zookeeper.discovery.node.prefix}")
+	public void setPROCESS_NODE_PREFIX(String pROCESS_NODE_PREFIX) {
+		PROCESS_NODE_PREFIX = pROCESS_NODE_PREFIX;
 	}
 
 }

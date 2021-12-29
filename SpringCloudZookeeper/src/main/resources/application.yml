@@ -24,3 +24,6 @@ spring:
       discovery:
         enabled: true
         instance-id: ${NODE_ID:1}
+        node:
+          root: /file_ingestion
+          prefix: /P_
