@@ -16,3 +16,4 @@ spring:
       config:
         enabled: true
         format: yaml
+        fail-fast: false
