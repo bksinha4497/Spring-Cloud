@@ -1,0 +1,18 @@
+server:
+  port: 8082
+spring:
+  application:
+   name: spring-cloud-consul
+  cloud:
+    discovery:
+      enabled: true 
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        heartbeat:
+          enabled: true
+        instance-id: ${spring.application.name}:${random.value}
+      config:
+        enabled: true
+        format: yaml
