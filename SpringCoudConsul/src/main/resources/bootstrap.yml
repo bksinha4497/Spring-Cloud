@@ -17,3 +17,5 @@ spring:
         enabled: true
         format: yaml
         fail-fast: false
+        watch:
+          enabled: true
