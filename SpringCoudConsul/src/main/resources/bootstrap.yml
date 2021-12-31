@@ -12,7 +12,7 @@ spring:
       discovery:
         heartbeat:
           enabled: true
-        instance-id: ${spring.application.name}:${random.value}
+        instance-id: ${spring.application.name}:${random.int[1,999999]}
       config:
         enabled: true
         format: yaml

@@ -8,5 +8,5 @@ import lombok.Data;
 @Data
 public class Config {
 	private int timeout;
-	private boolean isSuccess;
+	private boolean success;
 }
